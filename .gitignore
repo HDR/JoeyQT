@@ -1,0 +1,5 @@
+build/
+*.user
+JoeyQT.pro.user.*
+*.gb
+*.gbc
