@@ -24,6 +24,7 @@ public:
     static QThread::Priority priority;
     QLabel *dID_label;
     QLabel *firm_label;
+    QLabel *key_label;
 
     void setInfo();
 

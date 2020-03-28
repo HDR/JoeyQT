@@ -10,6 +10,8 @@
 #include "Device.h"
 #include "Console.h"
 #include "include/libusb-1.0/libusb.h"
+#include <stdio.h>
+#include <sstream>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -43,12 +45,28 @@ class Gui:public QWidget
   QPushButton *eflash_btn;
   QPushButton *eram_btn;
 
+  QString HexA;
+  QString HexB;
+  QString HexC;
+  unsigned int A;
+  unsigned int B;
+  unsigned int C;
+  uint8_t buffer[64];
+  unsigned char *version [0x00];
+  unsigned char idBuffer[64];
+  unsigned char HexID = 0x80;
+  std::stringstream AStream;
+  std::stringstream BStream;
+  std::stringstream CStream;
+  QString hex;
+
 
 public:
     Gui (QWidget * parent = nullptr);
 
-  QProgressBar *progress;
-  public slots:void startup_info (void);
+    QProgressBar *progress;
+    uint genkey(uint did[]);
+public slots:void startup_info (void);
   void setEnabledButtons (bool stan);
   void setRamButtons ();
   void write_flash (void);

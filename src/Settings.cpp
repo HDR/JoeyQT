@@ -25,35 +25,23 @@ Settings::Settings (QWidget * parent):QGroupBox (tr ("Settings"), parent)
   labels->addWidget (ctype_label);
   ctype_combo = new QComboBox (this);
   combo_boxes->addWidget (ctype_combo);
-  ctype_combo->insertItem (0, "Regular Rom Cart");
-  ctype_combo->insertItem (1, "Flash Cart");
 
   roms_label = new QLabel ("Rom Size:", this);
   labels->addWidget (roms_label);
   roms_combo = new QComboBox (this);
   combo_boxes->addWidget (roms_combo);
-  roms_combo->insertItem (0, "4 MByte");
-  roms_combo->insertItem (1, "8 MByte");
-  roms_combo->insertItem (2, "16 MByte");
-  roms_combo->insertItem (3, "32 MByte");
   roms_combo->setCurrentIndex (0);
 
   memty_label = new QLabel ("Memory Type:", this);
   labels->addWidget (memty_label);
   memty_combo = new QComboBox (this);
   combo_boxes->addWidget (memty_combo);
-  memty_combo->insertItem (0, "SRAM");
-  memty_combo->insertItem (1, "FLASH");
-  memty_combo->insertItem (2, "EEPROM");
   memty_combo->setCurrentIndex (0);
 
   rsize_label = new QLabel ("RAM Size:", this);
   labels->addWidget (rsize_label);
   rsize_combo = new QComboBox (this);
   combo_boxes->addWidget (rsize_combo);
-  rsize_combo->insertItem (0, "256 Kbit");
-  rsize_combo->insertItem (1, "512 Kbit");
-  rsize_combo->insertItem (2, "1 Mbit");
   rsize_combo->setCurrentIndex (0);
 
   GB_check = new QCheckBox (tr ("GB"), this);
