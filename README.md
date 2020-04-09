@@ -18,3 +18,8 @@ A C++ version of the joey software (WIP)
 - Add MacOS support
 - Add Updating
 - Add Joey Jr support?
+
+
+## Media
+
+![](https://i.gyazo.com/d72bbb7d9da303165acd44387b596d40.gif)
