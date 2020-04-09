@@ -22,4 +22,4 @@ A C++ version of the joey software (WIP)
 
 ## Media
 
-![](https://i.gyazo.com/d72bbb7d9da303165acd44387b596d40.gif)
+![](https://i.imgur.com/iSb0bn5.gif)
