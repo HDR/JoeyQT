@@ -55,9 +55,15 @@ class Gui:public QWidget
   unsigned char *version [0x00];
   unsigned char idBuffer[64];
   unsigned char HexID = 0x80;
+  unsigned char rHeader1[64];
+  unsigned char rHeader2[64];
+  unsigned char rHeader3[64];
+  unsigned char gbaHeader[64];
   std::stringstream AStream;
   std::stringstream BStream;
   std::stringstream CStream;
+  std::stringstream header;
+  std::stringstream gbaheader;
   QString hex;
 
 

@@ -6,6 +6,7 @@ A C++ version of the joey software (WIP)
 ## Features
 - Gets the Device ID, Firmware Version & Update Key
 - Reads GB headers
+- Reads GBA headers
 
 ## Todo
 - Add GB cart reading

@@ -23,7 +23,6 @@
 #include <string.h>
 #include <time.h>
 #include <string>
-#include <iostream>
 #include "const.h"
 #include "icon.xpm"
 #include <cstring>
@@ -31,8 +30,6 @@
 #ifdef _WIN32
 #include <windows.h>
 #include <QWinTaskbarProgress>
-
-using namespace std;
 
 #include <bits/stl_list.h>
 #else
@@ -134,8 +131,6 @@ void Gui::startup_info (void) {
         } else {
             int ci = libusb_claim_interface(dev, 0);
             if(ci == 0){
-                console->print("Joey Device connected!");
-
                 libusb_bulk_transfer(dev, (0x01 | LIBUSB_ENDPOINT_OUT), *version, sizeof(version), nullptr, 0);
                 libusb_bulk_transfer(dev, (0x81 | LIBUSB_ENDPOINT_IN), buffer, 64, nullptr, 0);
                 QString bufferString((char*) buffer);
@@ -181,31 +176,33 @@ void Gui::main_ROMBankSwitch(int bank){
 }
 
 void Gui::main_readCartHeader(){
+    if(settings->GB_check->checkState() == Qt::Checked){
+        main_BV_SetBank(0,0);
+        main_ROMBankSwitch(1);
+        unsigned char data1[64] = {0x10,0x00,0x00,0x01,0x0};
+        libusb_bulk_transfer(dev, (0x01 | LIBUSB_ENDPOINT_OUT), data1, sizeof(data1), nullptr, 0);
+        libusb_bulk_transfer(dev, (0x81 | LIBUSB_ENDPOINT_IN), rHeader1, 64, nullptr, 0);
+        unsigned char data2[64] = {0x10,0x00,0x00,0x01,0x40};
+        libusb_bulk_transfer(dev, (0x01 | LIBUSB_ENDPOINT_OUT), data2, sizeof(data2), nullptr, 0);
+        libusb_bulk_transfer(dev, (0x81 | LIBUSB_ENDPOINT_IN), rHeader2, 64, nullptr, 0);
+        unsigned char data3[64] = {0x10,0x00,0x00,0x01,0x80};
+        libusb_bulk_transfer(dev, (0x01 | LIBUSB_ENDPOINT_OUT), data3, sizeof(data3), nullptr, 0);
+        libusb_bulk_transfer(dev, (0x81 | LIBUSB_ENDPOINT_IN), rHeader3, 64, nullptr, 0);
+        header.str(std::string());
+        header << rHeader1[52] << rHeader1[53] << rHeader1[54] << rHeader1[55] << rHeader1[56] << rHeader1[57] << rHeader1[58] << rHeader1[59] << rHeader1[60] << rHeader1[61] << rHeader1[62] << rHeader1[63] << rHeader2[0] << rHeader2[1] << rHeader2[2];
+        console->clearConsole();
+        console->print(QString::fromStdString(header.str()));
+    }
 
-    unsigned char header[192];
-    unsigned char dat1[64];
-    unsigned char dat2[64];
-    unsigned char dat3[64];
-    main_BV_SetBank(0,0);
-    main_ROMBankSwitch(1);
-    unsigned char data1[64] = {0x10,0x00,0x00,0x01,0x0};
-    libusb_bulk_transfer(dev, (0x01 | LIBUSB_ENDPOINT_OUT), data1, sizeof(data1), nullptr, 0);
-    libusb_bulk_transfer(dev, (0x81 | LIBUSB_ENDPOINT_IN), dat1, 64, nullptr, 0);
-
-    unsigned char data2[64] = {0x10,0x00,0x00,0x01,0x40};
-    libusb_bulk_transfer(dev, (0x01 | LIBUSB_ENDPOINT_OUT), data2, sizeof(data2), nullptr, 0);
-    libusb_bulk_transfer(dev, (0x81 | LIBUSB_ENDPOINT_IN), dat2, 64, nullptr, 0);
-
-    unsigned char data3[64] = {0x10,0x00,0x00,0x01,0x80};
-    libusb_bulk_transfer(dev, (0x01 | LIBUSB_ENDPOINT_OUT), data3, sizeof(data3), nullptr, 0);
-    libusb_bulk_transfer(dev, (0x81 | LIBUSB_ENDPOINT_IN), dat3, 64, nullptr, 0);
-
-    stringstream head; head << dat1[52] << dat1[53] << dat1[54] << dat1[55] << dat1[56] << dat1[57] << dat1[58] << dat1[59] << dat1[60] << dat1[61] << dat1[62] << dat1[63] << dat2[0] << dat2[1] << dat2[2];
-
-    console->print(QString::fromStdString(head.str()));
-
-
-
+    if(settings->GBA_check->checkState() == Qt::Checked){
+        unsigned char data[64] = {0x30,0x00,0x00,0x00,0x40};
+        libusb_bulk_transfer(dev, (0x01 | LIBUSB_ENDPOINT_OUT), data, sizeof(data), nullptr, 0);
+        libusb_bulk_transfer(dev, (0x81 | LIBUSB_ENDPOINT_IN), gbaHeader, 64, nullptr, 0);
+        gbaheader.str(std::string());
+        gbaheader <<  gbaHeader[32] << gbaHeader[33] << gbaHeader[34] << gbaHeader[35] << gbaHeader[36] << gbaHeader[37] << gbaHeader[38] << gbaHeader[39] << gbaHeader[40] << gbaHeader[41] << gbaHeader[42] << gbaHeader[43] << gbaHeader[44];
+        console->clearConsole();
+        console->print(QString::fromStdString(gbaheader.str()));
+    }
 }
 
 void Gui::read_flash (void) {

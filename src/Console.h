@@ -43,7 +43,7 @@ public:
   void clearConsole ()
   {
       this->clear();
-      this->print (tr ("GBxQT version ") + VER + tr (" started."));
+      this->print (tr ("JoeyQT version ") + VER + tr (" started."));
       this->line();
   }
 };
