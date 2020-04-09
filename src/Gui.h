@@ -51,7 +51,7 @@ class Gui:public QWidget
   unsigned int A;
   unsigned int B;
   unsigned int C;
-  uint8_t buffer[64];
+  unsigned char buffer[64];
   unsigned char *version [0x00];
   unsigned char idBuffer[64];
   unsigned char HexID = 0x80;
@@ -66,6 +66,9 @@ public:
 
     QProgressBar *progress;
     uint genkey(uint did[]);
+    void main_BV_SetBank(unsigned char blk, unsigned char sublk);
+    void main_readCartHeader();
+    void main_ROMBankSwitch(int bank);
 public slots:void startup_info (void);
   void setEnabledButtons (bool stan);
   void setRamButtons ();

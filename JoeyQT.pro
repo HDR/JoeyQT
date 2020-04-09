@@ -13,7 +13,6 @@ unix {
     QT += network widgets
 }
 
-
 RESOURCES += qdarkstyle/style.qrc
 
 # Input
